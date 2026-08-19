@@ -68,5 +68,3 @@ DarkMode=1
 ## 📜 Giấy phép
 
 Dự án được cung cấp với mục đích học tập, nghiên cứu và tối ưu hóa hiệu năng hệ thống Windows. Người dùng tự chịu trách nhiệm khi sử dụng trên thiết bị cá nhân.
-
-```
