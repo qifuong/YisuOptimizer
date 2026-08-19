@@ -1,97 +1,72 @@
-Yisu Optimizer
 
-Yisu Optimizer là công cụ tối ưu bộ nhớ RAM trên Windows. Chương trình giúp giải phóng bộ nhớ không cần thiết, giảm lượng RAM bị chiếm dụng bởi cache và các tiến trình đang chạy, phù hợp cho chơi game, giả lập và sử dụng máy tính trong thời gian dài.
+# Yisu Optimizer Ver 2.0
 
-# Lưu ý Tính năng
+**Yisu Optimizer** là công cụ tối ưu hóa bộ nhớ RAM và theo dõi phần cứng hệ thống chuyên nghiệp dành cho nền tảng Windows. Ứng dụng được thiết kế tối ưu cho việc chơi game, chạy giả lập và sử dụng máy tính trong thời gian dài.
 
-- Dọn RAM thủ công chỉ với một nút bấm
-- Tự động dọn RAM theo nhiều chế độ
-- Chế độ Game PC (1 giờ/lần)
-- Chế độ Giả lập (10 phút/lần)
-- Chế độ tùy chỉnh thời gian
-- Theo dõi dung lượng RAM theo thời gian thực
-- Hỗ trợ giao diện Sáng và Tối
-- Thu nhỏ xuống khay hệ thống (System Tray)
-- Hỗ trợ khởi động cùng Windows
-- Tự động lưu cấu hình người dùng
+---
 
-# Yêu cầu hệ thống
+## 🚀 Tính năng chính
 
-- Windows 10 hoặc mới hơn
-- Quyền Administrator
-- Nguyên lý hoạt động
+- **Dọn RAM thủ công & nhanh chóng:** Cung cấp hai cơ chế là *Dọn RAM Ngay* (xử lý Working Set theo tiến trình và Standby RAM) và *Dọn RAM Thủ Công* (xóa toàn diện Working Sets, Modified Page List, Standby List và Priority 0 Standby List).
+- **Chế độ Smart RAM (Tự động thông minh):** Theo dõi mức sử dụng RAM theo thời gian thực để tự động tối ưu dựa theo các ngưỡng:
+  - **Dưới 70%:** Bình thường.
+  - **70% - 79%:** Đang theo dõi.
+  - **80% - 89%:** Tự động tối ưu nhẹ.
+  - **Từ 90% trở lên:** Tự động tối ưu mạnh.
+- **Chế độ tối ưu định kỳ linh hoạt:**
+  - **Game PC:** Chu kỳ tự động kiểm tra mỗi 1 giờ.
+  - **Giả lập (EMU):** Chu kỳ tự động kiểm tra mỗi 10 phút.
+  - **Tùy chỉnh (Auto):** Cho phép tự cấu hình khoảng thời gian quét theo giây.
+- **Dashboard theo dõi hệ thống trực quan:** Theo dõi thời gian thực các thông số phần cứng bao gồm CPU, RAM, Disk (Ổ cứng) và Network (Tốc độ mạng Download/Upload).
+- **Hỗ trợ giao diện Sáng / Tối (Dark/Light Mode):** Tùy biến giao diện linh hoạt và tự động lưu trạng thái vào file cấu hình.
+- **Khay hệ thống (System Tray):** Cho phép ẩn/hiện cửa sổ giao diện nhanh chóng và tích hợp sẵn menu điều khiển ngầm.
+- **Khởi động cùng Windows:** Tích hợp tính năng bật/tắt khởi động cùng hệ thống thông qua Windows Registry.
 
-# Optimizer sử dụng hai phương pháp chính:
+---
 
-- EmptyStandbyList
-* Giải phóng Standby Memory
-* Xóa Modified Page List
-* Xóa Low Priority Standby List
+## ⚙️ Yêu cầu hệ thống
 
-- EmptyWorkingSet
-* Thu hồi bộ nhớ từ các tiến trình đang hoạt động
-* Bỏ qua các tiến trình hệ thống quan trọng của Windows
+- **Hệ điều hành:** Windows 10 hoặc phiên bản mới hơn.
+- **Quyền hạn:** Bắt buộc chạy với quyền **Administrator** (`#RequireAdmin`) để có thể thao tác với bộ nhớ đệm và tiến trình hệ thống.
+- **Thành phần phụ thuộc:** Chương trình tự động giải nén tệp `Cache.bin` (thực chất là công cụ `EmptyStandbyList.exe`) kèm thuộc tính ẩn (`+HS`) để xử lý dọn dẹp Standby List.
 
-# Hướng dẫn sử dụng
+---
 
-- Chạy chương trình với quyền Administrator.
-- Chọn chế độ tối ưu mong muốn.
-- Nhấn Dọn RAM Ngay để thực hiện tối ưu thủ công.
-- Có thể bật tùy chọn Chạy cùng Windows nếu cần.
+## 🔬 Nguyên lý hoạt động
 
-# Cấu hình
+Ứng dụng kết hợp hai phương pháp tối ưu an toàn cho hệ thống:
 
-- Các thiết lập được lưu trong file config.ini.
+1. **EmptyStandbyList (thông qua `Cache.bin`):**
+   - Xóa bỏ các dữ liệu lưu trữ tạm thời trong Standby Memory, Modified Page List, Low Priority Standby List và Priority 0 Standby.
+2. **EmptyWorkingSet (thông qua Windows API `psapi.dll`):**
+   - Thu hồi bộ nhớ RAM đang bị chiếm dụng bởi các tiến trình ứng dụng.
+   - **Bảo vệ hệ thống:** Tự động bỏ qua các tiến trình hệ thống cốt lõi quan trọng của Windows (`system`, `idle`, `csrss.exe`, `winlogon.exe`) nhằm đảm bảo sự ổn định tuyệt đối cho hệ điều hành.
 
-# Ví dụ:
+---
 
+## 📁 Cấu hình (`config.ini`)
+
+Mọi thiết lập của người dùng sẽ được tự động lưu lại vào tệp `config.ini` nằm cùng thư mục với chương trình:
+
+```ini
 [Settings]
 Mode=PC
 CheckInterval=300
 DarkMode=1
-Biên dịch
 
-# Lưu ý
-
-Yisu Optimizer:
-
-* Không ép giải phóng RAM vật lý bằng phương pháp nguy hiểm.
-* Không chỉnh sửa Registry ngoài tính năng Auto Start.
-* Không can thiệp vào dữ liệu người dùng.
-* Không ảnh hưởng tới file cá nhân.
-
-Việc giải phóng RAM chỉ tác động đến cache và working set của các tiến trình.
+```
 
 ---
 
-# Hiệu quả thực tế
+## 👨‍💻 Thông tin tác giả & Hỗ trợ
 
-Trong nhiều trường hợp, chương trình có thể:
-
-* Giảm RAM sử dụng từ 500MB đến vài GB.
-* Hạn chế hiện tượng RAM Cache tích tụ.
-* Hỗ trợ chuyển đổi giữa game và ứng dụng nhanh hơn.
-* Giảm tình trạng giật lag sau thời gian dài sử dụng.
-
-Hiệu quả phụ thuộc vào:
-
-* Dung lượng RAM máy tính.
-* Số lượng tiến trình đang chạy.
-* Tình trạng sử dụng bộ nhớ của Windows.
+* **Phát triển bởi:** **Yisu** (Phiên bản: `2.0.0.0`)
+* **Facebook:** [LeeQiFuong](https://www.facebook.com/LeeQiFuong/)
 
 ---
 
-# Thông tin tác giả
+## 📜 Giấy phép
 
-Phát triển bởi: **Yisu**
+Dự án được cung cấp với mục đích học tập, nghiên cứu và tối ưu hóa hiệu năng hệ thống Windows. Người dùng tự chịu trách nhiệm khi sử dụng trên thiết bị cá nhân.
 
-Facebook:
-
-https://www.facebook.com/LeeQiFuong/
-
----
-
-# Giấy phép
-
-Dự án được cung cấp với mục đích học tập, nghiên cứu và tối ưu hệ thống Windows.
-Người dùng tự chịu trách nhiệm khi sử dụng trên hệ thống của mình.
+```
